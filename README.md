@@ -41,10 +41,10 @@ This implementation is in CPU supporting multi-core parallelization. To enable, 
 
 ### How to Train ###
 An example script for training is given in <a href="exper/run_pascal_scribble.sh" alt=#>exper/run_pascal_scribble.sh</a>.
-</br>We have training in two phases. First, we train with partial cross entropy loss.
+</br>We have training in two phases. First, we train with partial cross entropy loss. This gives mIOU of ~55.8% on VOC12 val set.
 * <a href="exper/pascal_scribble/config/deeplab_largeFOV/solver.prototxt" alt=#>exper/pascal_scribble/config/deeplab_largeFOV/solver.prototxt</a>
 * <a href="exper/pascal_scribble/config/deeplab_largeFOV/train.prototxt" alt=#>exper/pascal_scribble/config/deeplab_largeFOV/train.prototxt</a>
 
-Then we fine-tune the network with extra regularization loss, e.g. DenseCRF loss.
+Then we fine-tune the network with extra regularization loss, e.g. DenseCRF loss. This boosts mIOU to ~62.3% on val set.
 * <a href="exper/pascal_scribble/config/deeplab_largeFOV/solverwithdensecrfloss.prototxt" alt=#>exper/pascal_scribble/config/deeplab_largeFOV/solver.prototxt</a>
 * <a href="exper/pascal_scribble/config/deeplab_largeFOV/trainwithdensecrf.prototxt" alt=#>exper/pascal_scribble/config/deeplab_largeFOV/train.prototxt</a>
