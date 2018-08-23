@@ -12,3 +12,20 @@ If you use the code here, please cite the following paper.
 In European Conference on Computer Vision (ECCV), Munich, Germany, September 2018.
 
 ### DenseCRF Loss ###
+To include DenseCRF loss for CNN, add the following loss layer. It takes two bottom blobs, first RGB image and the second is soft segmentation distributions. We need to specify bandwidth of Gaussian kernel for XY (bi_xy_std) and RGB (bi_rgb_std).
+```
+layer {
+  bottom: "image"
+  bottom: "segmentation"
+  propagate_down: false
+  propagate_down: true
+  top: "densecrf_loss"
+  name: "densecrf_loss"
+  type: "DenseCRFLoss"
+  loss_weight: ${DENSECRF_LOSS_WEIGHT}
+  densecrf_loss_param {
+    bi_xy_std: 100
+    bi_rgb_std: 15
+  }
+}
+```
