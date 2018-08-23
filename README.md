@@ -7,11 +7,11 @@ The loss have two parts, partial cross-entropy (pCE) loss over scribbles and reg
 
 If you use the code here, please cite the following paper.
 
-"On Regularized Losses for Weakly-supervised CNN Segmentation"</br>
+**"On Regularized Losses for Weakly-supervised CNN Segmentation"**</br>
 [Meng Tang](http://cs.uwaterloo.ca/~m62tang), [Federico Perazzi](https://fperazzi.github.io/), [Abdelaziz Djelouah](https://adjelouah.github.io/), [Ismail Ben Ayed](https://profs.etsmtl.ca/ibenayed/), [Christopher Schroers](https://www.disneyresearch.com/people/christopher-schroers/), [Yuri Boykov](https://cs.uwaterloo.ca/about/people/yboykov)</br>
 In European Conference on Computer Vision (ECCV), Munich, Germany, September 2018.
 
-### DenseCRF Loss ###
+### DenseCRF loss ###
 To include DenseCRF loss for CNN, add the following loss layer. It takes two bottom blobs, first RGB image and the second is soft segmentation distributions. We need to specify bandwidth of Gaussian kernel for XY (bi_xy_std) and RGB (bi_rgb_std).
 ```
 layer {
@@ -39,7 +39,7 @@ The implementation of this loss layer is in:
 
 This implementation is in CPU supporting multi-core parallelization. To enable, build with -fopenmp, see <a href="deeplab/Makefile" alt=#>deeplab/Makefile</a>.
 
-### How to Train ###
+### How to train ###
 An example script for training is given in <a href="exper/run_pascal_scribble.sh" alt=#>exper/run_pascal_scribble.sh</a>.
 </br>We have training in two phases. First, we train with partial cross entropy loss. This gives mIOU of ~55.8% on VOC12 val set.
 * <a href="exper/pascal_scribble/config/deeplab_largeFOV/solver.prototxt" alt=#>exper/pascal_scribble/config/deeplab_largeFOV/solver.prototxt</a>
@@ -48,3 +48,15 @@ An example script for training is given in <a href="exper/run_pascal_scribble.sh
 Then we fine-tune the network with extra regularization loss, e.g. DenseCRF loss. This boosts mIOU to ~62.3% on val set.
 * <a href="exper/pascal_scribble/config/deeplab_largeFOV/solverwithdensecrfloss.prototxt" alt=#>exper/pascal_scribble/config/deeplab_largeFOV/solver.prototxt</a>
 * <a href="exper/pascal_scribble/config/deeplab_largeFOV/trainwithdensecrf.prototxt" alt=#>exper/pascal_scribble/config/deeplab_largeFOV/train.prototxt</a>
+
+### Future code realease ###
+In the near future, the authors will release code for other regularization losses for segmentation, e.g. normalized cut and volume prior.</br>
+**"Normalized Cut Loss for Weakly-supervised CNN Segmentation"**</br>
+Meng Tang, Abdelaziz Djelouah, Federico Perazzi, Yuri Boykov, Christopher Schroers</br>
+In IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Salt Lake City, USA, June 2018</br>
+**“Size-constraint	loss	for	weakly	supervised	CNN	segmentation”**</br>
+Hoel Kervadec, Jose Dolz, Meng Tang, Eric Granger, Yuri Boykov, Ismail Ben Ayed</br>
+In	International	conference on	Medical	Imaging	with	Deep	Learning	(MIDL),	Amsterdam,	Netherlands,	July	2018.</br>
+
+We are working on re-implementation of these regularization loss layers in Caffe, Tensorflow and PyTorch and will release soon.</br>
+We will try other state-of-the-art network backbones with regularized losses and include in this repository.
