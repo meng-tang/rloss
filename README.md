@@ -41,7 +41,7 @@ This implementation is in CPU supporting multi-core parallelization. To enable, 
 
 ### How to Train ###
 An example script for training is given in <a href="exper/run_pascal_scribble.sh" alt=#>exper/run_pascal_scribble.sh</a>.
-<\br>We have training in two phases. First, we train with partial cross entropy loss.
+</br>We have training in two phases. First, we train with partial cross entropy loss.
 * <a href="exper/pascal_scribble/config/deeplab_largeFOV/solver.prototxt" alt=#>exper/pascal_scribble/config/deeplab_largeFOV/solver.prototxt</a>
 * <a href="exper/pascal_scribble/config/deeplab_largeFOV/train.prototxt" alt=#>exper/pascal_scribble/config/deeplab_largeFOV/train.prototxt</a>
 
