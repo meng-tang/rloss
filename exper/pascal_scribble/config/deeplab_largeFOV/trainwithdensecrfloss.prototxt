@@ -602,7 +602,7 @@ layer {
     bi_rgb_std: 15
   }
 }
-######################### end of extra CUT LOSS ######################
+######################### end of extra DenseCRF LOSS ######################
 
 layer {
   name: "accuracy"
