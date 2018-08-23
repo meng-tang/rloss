@@ -32,7 +32,7 @@ layer {
 The implementation of this loss layer is in:
 * <a href="deeplab/src/caffe/layers/densecrf_loss_layer.cpp" alt=#>deeplab/src/caffe/layers/densecrf_loss_layer.cpp</a>
 * <a href="deeplab/include/caffe/layers/densecrf_loss_layer.hpp" alt=#>deeplab/include/caffe/layers/densecrf_loss_layer.hpp</a>
-which depend on fast high dimensional Gaussian filtering in
+</br>which depend on fast high dimensional Gaussian filtering in
 * <a href="deeplab/include/caffe/util/filterrgbxy.hpp" alt=#>deeplab/include/caffe/util/filterrgbxy.hpp</a>
 * <a href="deeplab/src/caffe/util/filterrgbxy.cpp" alt=#>deeplab/src/caffe/util/filterrgbxy.cpp</a>
-* <a herf="deeplab/include/caffe/util/permutohedral.hpp">deeplab/include/caffe/util/permutohedral.hpp</a>
+* <a herf="deeplab/include/caffe/util/permutohedral.hpp" alt=#>deeplab/include/caffe/util/permutohedral.hpp</a>
