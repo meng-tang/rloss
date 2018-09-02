@@ -17,10 +17,10 @@ fi
 
 ## Specify which model to train
 ########### voc12 ################
-NET_ID=deeplab_largeFOV
+#NET_ID=deeplab_largeFOV
 #NET_ID=deeplab_vgg16
 #NET_ID=resnet-101
-#NET_ID=deeplab_msc_largeFOV
+NET_ID=deeplab_msc_largeFOV
 
 
 ## Variables used for weakly or semi-supervisedly training
@@ -42,8 +42,8 @@ export GLOG_log_dir=${LOG_DIR}
 
 ## Run
 
-RUN_TRAIN=1
-RUN_TRAINWITHDENSECRFLOSS=1
+RUN_TRAIN=0
+RUN_TRAINWITHDENSECRFLOSS=0
 RUN_TEST=1
 
 DENSECRF_LOSS_WEIGHT=1e-8
@@ -76,8 +76,11 @@ if [ ${RUN_TRAINWITHDENSECRFLOSS} -eq 1 ]; then
     #
     LIST_DIR=${EXP}/list
     TRAIN_SET=train${TRAIN_SET_SUFFIX}
-    #
-    MODEL=${EXP}/model/${NET_ID}/train_iter_9000.caffemodel
+    if [ "${NET_ID}" = "deeplab_largeFOV" ]; then
+	  MODEL=${EXP}/model/${NET_ID}/train_iter_9000.caffemodel
+	elif [ "${NET_ID}" = "deeplab_msc_largeFOV" ]; then
+	  MODEL=${EXP}/model/deeplab_largeFOV/trainwithdensecrfloss_iter_9000.caffemodel
+	fi
     #
     echo Training net ${EXP}/${NET_ID}
     for pname in trainwithdensecrfloss solverwithdensecrfloss; do
