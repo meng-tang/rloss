@@ -49,7 +49,7 @@ Then we fine-tune the network with extra regularization loss, e.g. DenseCRF loss
 * <a href="exper/pascal_scribble/config/deeplab_largeFOV/solverwithdensecrfloss.prototxt" alt=#>exper/pascal_scribble/config/deeplab_largeFOV/solverwithdensecrfloss.prototxt</a>
 * <a href="exper/pascal_scribble/config/deeplab_largeFOV/trainwithdensecrf.prototxt" alt=#>exper/pascal_scribble/config/deeplab_largeFOV/trainwithdensecrfloss.prototxt</a>
 
-Our loss can be used for any network. For example, training better network of deeplab_msc_largeFOV gives ~63.2% mIOU on val set.
+Our loss can be used for any network. For example, training better network of deeplab_msc_largeFOV gives ~63.2% mIOU on val set. Note that this is almost as good as that with full supervison (64.1%).
 * <a href="exper/pascal_scribble/config/deeplab_msc_largeFOV/solverwithdensecrfloss.prototxt" alt=#>exper/pascal_scribble/config/deeplab_msc_largeFOV/solverwithdensecrfloss.prototxt</a>
 * <a href="exper/pascal_scribble/config/deeplab_msc_largeFOV/trainwithdensecrf.prototxt" alt=#>exper/pascal_scribble/config/deeplab_msc_largeFOV/trainwithdensecrfloss.prototxt</a>
 
