@@ -53,6 +53,9 @@ Our loss can be used for any network. For example, training better network of de
 * <a href="exper/pascal_scribble/config/deeplab_msc_largeFOV/solverwithdensecrfloss.prototxt" alt=#>exper/pascal_scribble/config/deeplab_msc_largeFOV/solverwithdensecrfloss.prototxt</a>
 * <a href="exper/pascal_scribble/config/deeplab_msc_largeFOV/trainwithdensecrf.prototxt" alt=#>exper/pascal_scribble/config/deeplab_msc_largeFOV/trainwithdensecrfloss.prototxt</a>
 
+### Trained models ###
+The trained models for various networks with unregularized or regularized losses are released <a href="https://cs.uwaterloo.ca/~m62tang/rloss/" alt=#>here</a>.
+
 ### Future code realease ###
 In the near future, the authors will release code for other regularization losses for segmentation, e.g. normalized cut and volume prior.</br>
 **"Normalized Cut Loss for Weakly-supervised CNN Segmentation"**</br>
