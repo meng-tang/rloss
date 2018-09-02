@@ -48,9 +48,13 @@ An example script for training is given in <a href="exper/run_pascal_scribble.sh
 Then we fine-tune the network with extra regularization loss, e.g. DenseCRF loss. This boosts mIOU to ~62.3% on val set.
 * <a href="exper/pascal_scribble/config/deeplab_largeFOV/solverwithdensecrfloss.prototxt" alt=#>exper/pascal_scribble/config/deeplab_largeFOV/solverwithdensecrfloss.prototxt</a>
 * <a href="exper/pascal_scribble/config/deeplab_largeFOV/trainwithdensecrf.prototxt" alt=#>exper/pascal_scribble/config/deeplab_largeFOV/trainwithdensecrfloss.prototxt</a>
-Our loss can be used for any network. For example, training better network of deeplab_msc_largeFOV gives ~63.2% mIOU on val set.
-* <a href="exper/pascal_scribble/config/deeplab_msc_largeFOV/solverwithdensecrfloss.prototxt" alt=#>exper/pascal_scribble/config/deeplab_largeFOV/solverwithdensecrfloss.prototxt</a>
-* <a href="exper/pascal_scribble/config/deeplab_msc_largeFOV/trainwithdensecrf.prototxt" alt=#>exper/pascal_scribble/config/deeplab_largeFOV/trainwithdensecrfloss.prototxt</a>
+
+Our loss can be used for any network. For example, training better network of deeplab_msc_largeFOV gives ~63.2% mIOU on val set. Note that this is almost as good as that with full supervison (64.1%).
+* <a href="exper/pascal_scribble/config/deeplab_msc_largeFOV/solverwithdensecrfloss.prototxt" alt=#>exper/pascal_scribble/config/deeplab_msc_largeFOV/solverwithdensecrfloss.prototxt</a>
+* <a href="exper/pascal_scribble/config/deeplab_msc_largeFOV/trainwithdensecrf.prototxt" alt=#>exper/pascal_scribble/config/deeplab_msc_largeFOV/trainwithdensecrfloss.prototxt</a>
+
+### Trained models ###
+The trained models for various networks with unregularized or regularized losses are released <a href="https://cs.uwaterloo.ca/~m62tang/rloss/" alt=#>here</a>.
 
 ### Future code realease ###
 In the near future, the authors will release code for other regularization losses for segmentation, e.g. normalized cut and volume prior.</br>
