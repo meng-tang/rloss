@@ -43,7 +43,7 @@ class DenseCRFLossLayer : public LossLayer<Dtype>{
   float bi_rgb_std_;
   Blob<Dtype> * AS; //A * S
   
-  Dtype * ROI_allimages;
+  Dtype * cropping_batch;
   vector<Permutohedral> permutohedrals;
 
   

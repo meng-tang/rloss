@@ -13,7 +13,7 @@ namespace caffe{
 template <typename Dtype>
 DenseCRFLossLayer<Dtype>::~DenseCRFLossLayer() {
   delete AS;
-  delete ROI_allimages;
+  delete cropping_batch;
   
 }
 
@@ -31,7 +31,7 @@ void DenseCRFLossLayer<Dtype>::LayerSetUp(const vector<Blob<Dtype>*>& bottom,
   bi_rgb_std_ = densecrf_loss_param.bi_rgb_std();
   printf("LayerSetup\n");
   AS = new Blob<Dtype>(N,C,H,W);
-  ROI_allimages = new Dtype[N*H*W];
+  cropping_batch = new Dtype[N*H*W];
   permutohedrals = vector<Permutohedral>(N);
   
   const int maxNumThreads = omp_get_max_threads();
@@ -54,14 +54,14 @@ void DenseCRFLossLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*> & bottom,
   const Dtype* images = bottom[0]->cpu_data();
   const Dtype* segmentations = bottom[1]->cpu_data();
   
-  // ROI
-  caffe_set(N*H*W, Dtype(1.0), ROI_allimages);
+  // cropping
+  caffe_set(N*H*W, Dtype(1.0), cropping_batch);
   for(int n=0;n<N;n++){
     const Dtype * image = images + H*W*3*n;
     for(int h=0;h<H;h++){
       for(int w=0;w<W;w++){
         if(((int)(image[0*H*W + h*W + w])==0)&&((int)(image[1*H*W + h*W + w])==0)&&((int)(image[2*H*W + h*W + w])==0))
-          ROI_allimages[n*H*W + h*W + w] = Dtype(0);
+          cropping_batch[n*H*W + h*W + w] = Dtype(0);
       }
     }
   }
@@ -88,7 +88,7 @@ void DenseCRFLossLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*> & bottom,
     
     //printf("size of Dtype %d\n", sizeof(new Dtype[1]));
     //exit(-1);
-    densecrf_loss = densecrf_loss + Compute_DenseCRF(image, segmentations + H*W*C*n, AS->mutable_cpu_data() + n*C*H*W, ROI_allimages + n*H*W, permutohedrals[n]);
+    densecrf_loss = densecrf_loss + Compute_DenseCRF(image, segmentations + H*W*C*n, AS->mutable_cpu_data() + n*C*H*W, cropping_batch + n*H*W, permutohedrals[n]);
     //exit(-1);
     //printf(" Thread %d: %d\n", omp_get_thread_num(), n);
   }
@@ -117,7 +117,7 @@ void DenseCRFLossLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*> & top,
     for(int n=0;n<N;n++){
 
       const Dtype * image = images + H*W*3*n;
-      Gradient_DenseCRF(image, segmentations + H*W*C*n, bottom_diff + H*W*C*n, AS->cpu_data()+n*C*H*W, ROI_allimages + n*H*W);
+      Gradient_DenseCRF(image, segmentations + H*W*C*n, bottom_diff + H*W*C*n, AS->cpu_data()+n*C*H*W, cropping_batch + n*H*W);
     }
     // Scale gradient
     Dtype loss_weight = top[0]->cpu_diff()[0] / N;
@@ -129,13 +129,13 @@ void DenseCRFLossLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*> & top,
 }
 
 template <typename Dtype>
-Dtype DenseCRFLossLayer<Dtype>::Compute_DenseCRF(const Dtype * image, const Dtype * segmentation, Dtype * AS_data,  const Dtype * ROI, Permutohedral & permutohedral)
+Dtype DenseCRFLossLayer<Dtype>::Compute_DenseCRF(const Dtype * image, const Dtype * segmentation, Dtype * AS_data,  const Dtype * cropping, Permutohedral & permutohedral)
 {
   Dtype densecrf_loss = 0;
-  // segmentation in ROI, zero outside
+  // segmentation in cropping, zero outside
   Dtype * temp = new Dtype[H*W];
   for(int c=0;c<C;c++){
-    caffe_mul(H*W, segmentation+c*W*H, ROI, temp);
+    caffe_mul(H*W, segmentation+c*W*H, cropping, temp);
     //printf("sum of segmentation of this channel %.8f\n", caffe_cpu_dot(H*W, temp, allones->cpu_data()));
     permutohedral.compute((float *)AS_data + c*W*H, (float *)temp, 1);
                
@@ -150,26 +150,26 @@ Dtype DenseCRFLossLayer<Dtype>::Compute_DenseCRF(const Dtype * image, const Dtyp
 }
 
 template <typename Dtype>
-void DenseCRFLossLayer<Dtype>::Gradient_DenseCRF(const Dtype * image, const Dtype * segmentation, Dtype * gradients, const Dtype * AS_data,  const Dtype * ROI){
+void DenseCRFLossLayer<Dtype>::Gradient_DenseCRF(const Dtype * image, const Dtype * segmentation, Dtype * gradients, const Dtype * AS_data,  const Dtype * cropping){
   
   caffe_set(H*W*C, Dtype(0), gradients);
-  // segmentation in ROI, zero outside
+  // segmentation in cropping, zero outside
   Dtype * temp = new Dtype[H*W];
   for(int c=0;c<C;c++){
-    caffe_mul(H*W, segmentation+c*W*H, ROI, temp);
+    caffe_mul(H*W, segmentation+c*W*H, cropping, temp);
     for(int i=0;i<H * W;i++){
       gradients[H*W*c + i] = - 2 * AS_data[i+c*H*W];
       if(isnan(gradients[H*W*c + i]))
         LOG(FATAL) << this->type()
                << " Layer gradient is nan!"<<std::endl;
     }    
-    caffe_mul(H*W, gradients + c*H*W, ROI, gradients + c*H*W);
+    caffe_mul(H*W, gradients + c*H*W, cropping, gradients + c*H*W);
     //printf("gradient max and min %.20f %.20f \n", gradientmax, gradientmin);
     //printf("degree max %.2f \n", degreemax);
   }
   delete temp;
   for(int c=0;c<C;c++)
-    caffe_mul(H*W, gradients + c*H*W, ROI, gradients + c*H*W);
+    caffe_mul(H*W, gradients + c*H*W, cropping, gradients + c*H*W);
   //printf("end of gradient_cut\n");
 }
 
