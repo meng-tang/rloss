@@ -82,7 +82,7 @@ Our loss can be used for any network. For example, training better network of de
   </tr>
 </table>
 
-**Table**. 1 mIOU on PASCAL VOC2012 val set
+**Table 1**: mIOU on PASCAL VOC2012 val set
 
 ### Trained models ###
 The trained models for various networks with unregularized or regularized losses are released <a href="https://cs.uwaterloo.ca/~m62tang/rloss/" alt=#>here</a>.
