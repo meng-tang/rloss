@@ -54,8 +54,8 @@ Our loss can be used for any network. For example, training better network of de
 * <a href="exper/pascal_scribble/config/deeplab_msc_largeFOV/trainwithdensecrf.prototxt" alt=#>exper/pascal_scribble/config/deeplab_msc_largeFOV/trainwithdensecrfloss.prototxt</a>
 <table align="left|center|center|center">
   <tr>
-    <td rowspan="2" style="align:center;">network</td>
-    <td colspan="2" align="center">weak supervision</td>
+    <td rowspan="2" align="center">network</td>
+    <td colspan="2" align="center">weak supervision (~3% pixels labeled)</td>
     <td rowspan="2">full supervision</td>
   </tr>
   <tr>
