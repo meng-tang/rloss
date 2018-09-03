@@ -81,6 +81,7 @@ Our loss can be used for any network. For example, training better network of de
      <td>68.8%</td>
   </tr>
 </table>
+
 **Table**. 1 mIOU on PASCAL VOC2012 val set
 
 ### Trained models ###
