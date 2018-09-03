@@ -52,6 +52,35 @@ Then we fine-tune the network with extra regularization loss, e.g. DenseCRF loss
 Our loss can be used for any network. For example, training better network of deeplab_msc_largeFOV gives ~63.2% mIOU on val set. Note that this is almost as good as that with full supervison (64.1%).
 * <a href="exper/pascal_scribble/config/deeplab_msc_largeFOV/solverwithdensecrfloss.prototxt" alt=#>exper/pascal_scribble/config/deeplab_msc_largeFOV/solverwithdensecrfloss.prototxt</a>
 * <a href="exper/pascal_scribble/config/deeplab_msc_largeFOV/trainwithdensecrf.prototxt" alt=#>exper/pascal_scribble/config/deeplab_msc_largeFOV/trainwithdensecrfloss.prototxt</a>
+<table align="left|center|center|center">
+  <tr>
+    <td rowspan="2" style="align:center;">network</td>
+    <td colspan="2" align="center">weak supervision</td>
+    <td rowspan="2">full supervision</td>
+  </tr>
+  <tr>
+    <td>(partial) Cross Entropy Loss</td>
+    <td>w/ DenseCRF Loss</td>
+  </tr>
+   <tr>
+    <td>Deeplab_largeFOV</td>
+    <td>55.8%</td>
+     <td>62.3%</td>
+     <td>63.0%</td>
+  </tr>
+     <tr>
+    <td>Deeplab_Msc_largeFOV</td>
+    <td>n/a</td>
+     <td>63.2%</td>
+     <td>64.1%</td>
+  </tr>
+  <tr>
+    <td>Deeplab_VGG16</td>
+    <td>60.7%</td>
+     <td>64.7%</td>
+     <td>68.8%</td>
+  </tr>
+</table>
 
 ### Trained models ###
 The trained models for various networks with unregularized or regularized losses are released <a href="https://cs.uwaterloo.ca/~m62tang/rloss/" alt=#>here</a>.
