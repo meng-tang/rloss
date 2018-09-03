@@ -18,9 +18,10 @@ fi
 ## Specify which model to train
 ########### voc12 ################
 #NET_ID=deeplab_largeFOV
-#NET_ID=deeplab_vgg16
+#NET_ID=deeplab_msc_largeFOV
+NET_ID=deeplab_vgg16
 #NET_ID=resnet-101
-NET_ID=deeplab_msc_largeFOV
+
 
 
 ## Variables used for weakly or semi-supervisedly training
@@ -56,7 +57,13 @@ if [ ${RUN_TRAIN} -eq 1 ]; then
     LIST_DIR=${EXP}/list
     TRAIN_SET=train${TRAIN_SET_SUFFIX}
     #
-    MODEL=${EXP}/model/${NET_ID}/vgg16_20M.caffemodel
+    if [ "${NET_ID}" = "deeplab_largeFOV" ]; then
+      # download from http://liangchiehchen.com/projects/Init%20Models.html
+	  MODEL=${EXP}/model/${NET_ID}/vgg16_20M.caffemodel
+	elif [ "${NET_ID}" = "deeplab_vgg16" ]; then
+	  # download from http://liangchiehchen.com/projects/DeepLabv2_vgg.html
+	  MODEL=${EXP}/model/${NET_ID}/init.caffemodel
+	fi
     #
     echo Training net ${EXP}/${NET_ID}
     for pname in train solver; do
@@ -80,6 +87,8 @@ if [ ${RUN_TRAINWITHDENSECRFLOSS} -eq 1 ]; then
 	  MODEL=${EXP}/model/${NET_ID}/train_iter_9000.caffemodel
 	elif [ "${NET_ID}" = "deeplab_msc_largeFOV" ]; then
 	  MODEL=${EXP}/model/deeplab_largeFOV/trainwithdensecrfloss_iter_9000.caffemodel
+	elif [ "${NET_ID}" = "deeplab_vgg16" ]; then
+	  MODEL=${EXP}/model/${NET_ID}/train_iter_20000.caffemodel
 	fi
     #
     echo Training net ${EXP}/${NET_ID}
@@ -102,8 +111,14 @@ if [ ${RUN_TEST} -eq 1 ]; then
     #
     for TEST_SET in val; do
 				TEST_ITER=`cat ${EXP}/list/${TEST_SET}.txt | wc -l`
+				# for deeplab_vgg16
+				#MODEL=${EXP}/model/${NET_ID}/train_iter_20000.caffemodel
+				MODEL=${EXP}/model/${NET_ID}/trainwithdensecrfloss_iter_10000.caffemodel
+				# for deeplab_largeFOV
 				#MODEL=${EXP}/model/${NET_ID}/train_iter_9000.caffemodel
-				MODEL=${EXP}/model/${NET_ID}/trainwithdensecrfloss_iter_9000.caffemodel
+				#MODEL=${EXP}/model/${NET_ID}/trainwithdensecrfloss_iter_9000.caffemodel
+				# for deeplab_msc_largeFOV
+				#MODEL=${EXP}/model/${NET_ID}/trainwithdensecrfloss_iter_9000.caffemodel
 				echo $MODEL
 				if [ ! -f ${MODEL} ]; then
 						return
