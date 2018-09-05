@@ -37,7 +37,8 @@ The implementation of this loss layer is in:
 * <a href="deeplab/src/caffe/util/filterrgbxy.cpp" alt=#>deeplab/src/caffe/util/filterrgbxy.cpp</a>
 * <a href="deeplab/include/caffe/util/permutohedral.hpp" alt=#>deeplab/include/caffe/util/permutohedral.hpp</a>
 
-This implementation is in CPU supporting multi-core parallelization. To enable, build with -fopenmp, see <a href="deeplab/Makefile" alt=#>deeplab/Makefile</a>.
+This implementation is in CPU supporting multi-core parallelization. To enable, build with -fopenmp, see <a href="deeplab/Makefile" alt=#>deeplab/Makefile</a>.</br>
+Some examples of visualizing the gradients of DenseCRF loss are in <a href="exper/visualization" alt=#>exper/visualization</a>. To generate visualization yourself, run the script <a href="exper/visualize_densecrf_gradient.py" alt=#>exper/visualize_densecrf_gradient.py</a>.
 
 ### How to train ###
 An example script for training is given in <a href="exper/run_pascal_scribble.sh" alt=#>exper/run_pascal_scribble.sh</a>.
