@@ -66,7 +66,7 @@ void DenseCRFLossLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*> & bottom,
     }
   }
   
-  //printf("NC forward\n");
+  //printf("DenseCRF forward\n");
   //printf("bi std %.2f %.2f\n", bi_xy_std_, bi_rgb_std_);
   
   
@@ -108,7 +108,7 @@ void DenseCRFLossLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*> & top,
                << " Layer cannot backpropagate to image inputs.";
   }
   if (propagate_down[1]) {
-    //printf("NC backward\n");
+    //printf("DenseCRF backward\n");
     const Dtype* images = bottom[0]->cpu_data();
     const Dtype* segmentations = bottom[1]->cpu_data();
     Dtype* bottom_diff = bottom[1]->mutable_cpu_diff();
@@ -164,13 +164,11 @@ void DenseCRFLossLayer<Dtype>::Gradient_DenseCRF(const Dtype * image, const Dtyp
                << " Layer gradient is nan!"<<std::endl;
     }    
     caffe_mul(H*W, gradients + c*H*W, cropping, gradients + c*H*W);
-    //printf("gradient max and min %.20f %.20f \n", gradientmax, gradientmin);
-    //printf("degree max %.2f \n", degreemax);
   }
   delete temp;
   for(int c=0;c<C;c++)
     caffe_mul(H*W, gradients + c*H*W, cropping, gradients + c*H*W);
-  //printf("end of gradient_cut\n");
+  //printf("end of gradient_densecrf\n");
 }
 
 #ifdef CPU_ONLY
