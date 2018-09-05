@@ -5,6 +5,8 @@ gamma: 0.1
 stepsize: 3000
 base_lr: 1e-4
 
+random_seed: 40
+
 display: 10
 max_iter: 9000
 momentum: 0.9
