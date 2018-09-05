@@ -7,7 +7,7 @@ The loss have two parts, partial cross-entropy (pCE) loss over scribbles and reg
 
 If you use the code here, please cite the following paper.
 
-**"On Regularized Losses for Weakly-supervised CNN Segmentation"**[PDF](http://cs.uwaterloo.ca/~m62tang/OnRegularizedLosses_ECCV18.pdf)</br>
+**"On Regularized Losses for Weakly-supervised CNN Segmentation"** [PDF](http://cs.uwaterloo.ca/~m62tang/OnRegularizedLosses_ECCV18.pdf)</br>
 [Meng Tang](http://cs.uwaterloo.ca/~m62tang), [Federico Perazzi](https://fperazzi.github.io/), [Abdelaziz Djelouah](https://adjelouah.github.io/), [Ismail Ben Ayed](https://profs.etsmtl.ca/ibenayed/), [Christopher Schroers](https://www.disneyresearch.com/people/christopher-schroers/), [Yuri Boykov](https://cs.uwaterloo.ca/about/people/yboykov)</br>
 In European Conference on Computer Vision (ECCV), Munich, Germany, September 2018.
 
@@ -93,14 +93,13 @@ Our loss can be used for any network. For example, training better network of de
 ### Trained models ###
 The trained models for various networks with unregularized or regularized losses are released <a href="https://cs.uwaterloo.ca/~m62tang/rloss/" alt=#>here</a>.
 
-### Future code realease ###
-In the near future, the authors will release code for other regularization losses for segmentation, e.g. normalized cut and volume prior.</br>
-**"Normalized Cut Loss for Weakly-supervised CNN Segmentation"**</br>
+### Other Regularized Losses ###
+In principle, our framework allows any differentialble regularization losses for segmentation, e.g. normalized cut clustering criterion and size constraint.</br>
+**"Normalized Cut Loss for Weakly-supervised CNN Segmentation"** [PDF](https://cs.uwaterloo.ca/~m62tang/ncloss_CVPR18.pdf)</br>
 Meng Tang, Abdelaziz Djelouah, Federico Perazzi, Yuri Boykov, Christopher Schroers</br>
 In IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Salt Lake City, USA, June 2018</br>
-**“Size-constraint	loss	for	weakly	supervised	CNN	segmentation”**</br>
+**“Size-constraint	loss	for	weakly	supervised	CNN	segmentation”** [PDF](https://arxiv.org/pdf/1805.04628.pdf) [Code](https://github.com/LIVIAETS/SizeLoss_WSS)</br>
 Hoel Kervadec, Jose Dolz, Meng Tang, Eric Granger, Yuri Boykov, Ismail Ben Ayed</br>
 In	International	conference on	Medical	Imaging	with	Deep	Learning	(MIDL),	Amsterdam,	Netherlands,	July	2018.</br>
 
-We are working on re-implementation of these regularization loss layers in Caffe, Tensorflow and PyTorch and will release soon.</br>
-We will try other state-of-the-art network backbones with regularized losses and include in this repository.
+We are working on re-implementation of these regularization loss layers in Caffe, Tensorflow and PyTorch and will release soon. We will also try other state-of-the-art network backbones with regularized losses and include in this repository.
