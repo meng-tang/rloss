@@ -1,0 +1,18 @@
+train_net: "${EXP}/config/${NET_ID}/trainwithdensecrfloss_${TRAIN_SET}.prototxt"
+
+iter_size: 10
+lr_policy: "poly"
+power: 0.9
+base_lr: 1.5e-4
+
+random_seed: 100000
+
+average_loss: 20
+display: 20
+max_iter: 10000
+momentum: 0.9
+weight_decay: 0.0005
+
+snapshot: 1000
+snapshot_prefix: "${EXP}/model/${NET_ID}/trainwithdensecrfloss"
+solver_mode: GPU

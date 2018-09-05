@@ -7,7 +7,7 @@ The loss have two parts, partial cross-entropy (pCE) loss over scribbles and reg
 
 If you use the code here, please cite the following paper.
 
-**"On Regularized Losses for Weakly-supervised CNN Segmentation"**</br>
+**"On Regularized Losses for Weakly-supervised CNN Segmentation"**[PDF](http://cs.uwaterloo.ca/~m62tang/OnRegularizedLosses_ECCV18.pdf)</br>
 [Meng Tang](http://cs.uwaterloo.ca/~m62tang), [Federico Perazzi](https://fperazzi.github.io/), [Abdelaziz Djelouah](https://adjelouah.github.io/), [Ismail Ben Ayed](https://profs.etsmtl.ca/ibenayed/), [Christopher Schroers](https://www.disneyresearch.com/people/christopher-schroers/), [Yuri Boykov](https://cs.uwaterloo.ca/about/people/yboykov)</br>
 In European Conference on Computer Vision (ECCV), Munich, Germany, September 2018.
 
@@ -79,6 +79,12 @@ Our loss can be used for any network. For example, training better network of de
     <td>60.7%</td>
      <td>64.7%</td>
      <td>68.8%</td>
+  </tr>
+  <tr>
+    <td>Deeplab_ResNet101</td>
+    <td>69.5%</td>
+     <td>73.0%</td>
+     <td>75.6%</td>
   </tr>
 </table>
 

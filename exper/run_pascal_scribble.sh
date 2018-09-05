@@ -19,8 +19,8 @@ fi
 ########### voc12 ################
 #NET_ID=deeplab_largeFOV
 #NET_ID=deeplab_msc_largeFOV
-NET_ID=deeplab_vgg16
-#NET_ID=resnet-101
+#NET_ID=deeplab_vgg16
+NET_ID=resnet-101
 
 
 
@@ -43,8 +43,8 @@ export GLOG_log_dir=${LOG_DIR}
 
 ## Run
 
-RUN_TRAIN=0
-RUN_TRAINWITHDENSECRFLOSS=0
+RUN_TRAIN=1
+RUN_TRAINWITHDENSECRFLOSS=1
 RUN_TEST=1
 
 DENSECRF_LOSS_WEIGHT=1e-8
@@ -62,6 +62,9 @@ if [ ${RUN_TRAIN} -eq 1 ]; then
 	  MODEL=${EXP}/model/${NET_ID}/vgg16_20M.caffemodel
 	elif [ "${NET_ID}" = "deeplab_vgg16" ]; then
 	  # download from http://liangchiehchen.com/projects/DeepLabv2_vgg.html
+	  MODEL=${EXP}/model/${NET_ID}/init.caffemodel
+	elif [ "${NET_ID}" = "resnet-101" ]; then
+	  # download from http://liangchiehchen.com/projects/DeepLabv2_resnet.html
 	  MODEL=${EXP}/model/${NET_ID}/init.caffemodel
 	fi
     #
@@ -89,6 +92,8 @@ if [ ${RUN_TRAINWITHDENSECRFLOSS} -eq 1 ]; then
 	  MODEL=${EXP}/model/deeplab_largeFOV/trainwithdensecrfloss_iter_9000.caffemodel
 	elif [ "${NET_ID}" = "deeplab_vgg16" ]; then
 	  MODEL=${EXP}/model/${NET_ID}/train_iter_20000.caffemodel
+	elif [ "${NET_ID}" = "resnet-101" ]; then
+	  MODEL=${EXP}/model/${NET_ID}/train_iter_20000.caffemodel
 	fi
     #
     echo Training net ${EXP}/${NET_ID}
@@ -113,12 +118,14 @@ if [ ${RUN_TEST} -eq 1 ]; then
 				TEST_ITER=`cat ${EXP}/list/${TEST_SET}.txt | wc -l`
 				# for deeplab_vgg16
 				#MODEL=${EXP}/model/${NET_ID}/train_iter_20000.caffemodel
-				MODEL=${EXP}/model/${NET_ID}/trainwithdensecrfloss_iter_10000.caffemodel
+				#MODEL=${EXP}/model/${NET_ID}/trainwithdensecrfloss_iter_10000.caffemodel
 				# for deeplab_largeFOV
 				#MODEL=${EXP}/model/${NET_ID}/train_iter_9000.caffemodel
 				#MODEL=${EXP}/model/${NET_ID}/trainwithdensecrfloss_iter_9000.caffemodel
 				# for deeplab_msc_largeFOV
 				#MODEL=${EXP}/model/${NET_ID}/trainwithdensecrfloss_iter_9000.caffemodel
+				# for resnet-101
+				MODEL=${EXP}/model/${NET_ID}/train_iter_20000.caffemodel
 				echo $MODEL
 				if [ ! -f ${MODEL} ]; then
 						return
