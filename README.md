@@ -65,25 +65,25 @@ Our loss can be used for any network. For example, training better network of de
    <tr>
     <td>Deeplab_largeFOV</td>
     <td>55.8%</td>
-     <td>62.3%</td>
+     <td><b>62.3%</b></td>
      <td>63.0%</td>
   </tr>
      <tr>
     <td>Deeplab_Msc_largeFOV</td>
     <td>n/a</td>
-     <td>63.2%</td>
+     <td><b>63.2%</b></td>
      <td>64.1%</td>
   </tr>
   <tr>
     <td>Deeplab_VGG16</td>
     <td>60.7%</td>
-     <td>64.7%</td>
+     <td><b>64.7%</b></td>
      <td>68.8%</td>
   </tr>
   <tr>
     <td>Deeplab_ResNet101</td>
     <td>69.5%</td>
-     <td>73.0%</td>
+     <td><b>73.0%</b></td>
      <td>75.6%</td>
   </tr>
 </table>
