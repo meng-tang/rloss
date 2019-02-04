@@ -103,4 +103,5 @@ In IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Salt Lake 
 Hoel Kervadec, Jose Dolz, Meng Tang, Eric Granger, Yuri Boykov, Ismail Ben Ayed</br>
 In	International	conference on	Medical	Imaging	with	Deep	Learning	(MIDL),	Amsterdam,	Netherlands,	July	2018.</br>
 
-We are working on re-implementation of these regularization loss layers in Caffe, Tensorflow and PyTorch and will release soon. We will also try other state-of-the-art network backbones with regularized losses and include in this repository.
+### Pytorch and Tensorflow
+The original implementation used for the published articles is in Caffe. We release a PyTorch implementation, see <a href="pytorch/">pytorch</a>. A tensorflow version is under development. We will also try other state-of-the-art network backbones with regularized losses and include in this repository.
