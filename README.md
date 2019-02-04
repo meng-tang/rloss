@@ -1,4 +1,6 @@
-## Regularized Losses (rloss) for Weakly-supervised CNN Segmentation
+## Regularized Losses (rloss) for Weakly-supervised CNN Segmentation 
+
+(Caffe and Pytorch)
 
 <span align="center"><img src="teaser.png" alt="" width="800"/></span>
 
