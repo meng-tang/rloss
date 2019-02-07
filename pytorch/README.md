@@ -43,7 +43,7 @@ python3 train_withdensecrfloss.py --backbone mobilenet --lr 0.007 --workers 6 --
    <tr>
     <td>mobilenet</td>
     <td>65.8% (1.05 s/it)</td>
-     <td><b>68.9% (1.66 s/it)</b></td>
+     <td><b>68.9%</b> (1.66 s/it)</td>
      <td>72.1% (1.05 s/it)</td>
   </tr>
 </table>
