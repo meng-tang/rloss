@@ -21,7 +21,7 @@ The input to the denseCRF loss layer includes image (in the range of [0-255]), s
 losslayer(image,segmentation,region_of_interest)
 ```
 ## how to run the code
-Using the following example script, we specify to train with densecrf loss. The weight of densecrf loss is 2e-9. The bandwidths of Gaussian kernels are 15 and 100 for RGB and XY respectively. Optionally, the output segmentation is downscaled by 0.5 (rloss-scale).
+To train with densecrf loss, use the following example script. The weight of densecrf loss is 2e-9. The bandwidths of Gaussian kernels are 15 and 100 for RGB and XY respectively. Optionally, the output segmentation is downscaled by 0.5 (rloss-scale).
 ```
 python3 train_withdensecrfloss.py --backbone mobilenet --lr 0.007 --workers 6 --epochs 60 
 --batch-size 12  --checkname deeplab-mobilenet --eval-interval 2 --dataset pascal --save-interval 2 
