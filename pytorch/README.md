@@ -21,11 +21,11 @@ The input to the denseCRF loss layer includes image (in the range of [0-255]), s
 losslayer(image,segmentation,region_of_interest)
 ```
 ## how to run the code
-Using the following example script, we specify to train with densecrf loss. The weight of densecrf loss is 1.5e-9. The bandwidths of Gaussian kernels are 15 and 100 for RGB and XY respectively. Optionally, the output segmentation is downscaled by 0.5 (rloss-scale).
+Using the following example script, we specify to train with densecrf loss. The weight of densecrf loss is 2e-9. The bandwidths of Gaussian kernels are 15 and 100 for RGB and XY respectively. Optionally, the output segmentation is downscaled by 0.5 (rloss-scale).
 ```
 python3 train_withdensecrfloss.py --backbone mobilenet --lr 0.007 --workers 6 --epochs 60 
 --batch-size 12  --checkname deeplab-mobilenet --eval-interval 2 --dataset pascal --save-interval 2 
---densecrfloss 1.5e-9 --rloss-scale 0.5 --sigma-rgb 15 --sigma-xy 100
+--densecrfloss 2e-9 --rloss-scale 0.5 --sigma-rgb 15 --sigma-xy 100
 ```
 (set the path of dataset in mypath.py. For example, the path for pascal should have three subdirectories called "JPEGImages", "SegmentationClassAug", and "pascal_2012_scribble" containing RGB images, groundtruth, and scribbles respectively.)
 
@@ -43,7 +43,7 @@ python3 train_withdensecrfloss.py --backbone mobilenet --lr 0.007 --workers 6 --
    <tr>
     <td>mobilenet</td>
     <td>65.8% (1.05 s/it)</td>
-     <td><b>68.9%</b> (1.66 s/it)</td>
+     <td><b>69.4%</b> (1.66 s/it)</td>
      <td>72.1% (1.05 s/it)</td>
   </tr>
 </table>
