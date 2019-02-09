@@ -1,1 +1,1 @@
-CUDA_VISIBLE_DEVICES=0 python3 train_withdensecrfloss.py --backbone mobilenet --lr 0.007 --workers 4 --epochs 50 --batch-size 12  --checkname deeplab-mobilenet --eval-interval 2 --dataset pascal --save-interval 2 --densecrfloss 1.5e-9 --rloss-scale 0.5 --sigma-rgb 15 --sigma-xy 100
+CUDA_VISIBLE_DEVICES=0 python3 train_withdensecrfloss.py --backbone mobilenet --lr 0.007 --workers 4 --epochs 60 --batch-size 12  --checkname deeplab-mobilenet --eval-interval 2 --dataset pascal --save-interval 2 --densecrfloss 2e-9 --rloss-scale 0.5 --sigma-rgb 15 --sigma-xy 100
