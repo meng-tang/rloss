@@ -1,5 +1,5 @@
 #File: setup.py
-#!/usr/bin/python3.6
+#!/usr/bin/python
 from distutils.core import setup, Extension
 
 # Third-party modules - we depend on numpy for everything
