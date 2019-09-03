@@ -1,12 +1,22 @@
 # Pytorch version of regularized segmentation loss
 
+## Python enviroment and dependencies
+```
+pyenv install 3.7.1
+pyenv virtualenv 3.7.1 myenv
+cd rloss/pytorch
+pyenv local myenv
+pip install -r requirements.txt
+```
+Other dependencies include [COCOAPI](https://github.com/cocodataset/cocoapi).
+
 ## build python extension module
 
 The implementation of DenseCRF loss depends on fast bilateral filtering, which is provided in C++. Use SWIG to wrap C++ for python and then build the python module of bilateral filtering.
 ```
 cd wrapper/bilateralfilter
 swig -python -c++ bilateralfilter.i
-python3 setup.py build
+python setup.py install
 ```
 ## denseCRF loss in pytorch
 
@@ -23,11 +33,11 @@ losslayer(image,segmentation,region_of_interest)
 ## how to run the code
 To train with densecrf loss, use the following example script. The weight of densecrf loss is 2e-9. The bandwidths of Gaussian kernels are 15 and 100 for RGB and XY respectively. Optionally, the output segmentation is downscaled by 0.5 (rloss-scale).
 ```
-python3 train_withdensecrfloss.py --backbone mobilenet --lr 0.007 --workers 6 --epochs 60 
+python train_withdensecrfloss.py --backbone mobilenet --lr 0.007 --workers 6 --epochs 60 
 --batch-size 12  --checkname deeplab-mobilenet --eval-interval 2 --dataset pascal --save-interval 2 
 --densecrfloss 2e-9 --rloss-scale 0.5 --sigma-rgb 15 --sigma-xy 100
 ```
-(set the path of dataset in mypath.py. For example, the path for pascal should have three subdirectories called "JPEGImages", "SegmentationClassAug", and "pascal_2012_scribble" containing RGB images, groundtruth, and scribbles respectively.)
+(set the path of dataset in [mypath.py](pytorch-deeplab_v3_plus/mypath.py). The path for pascal should have three subdirectories called "JPEGImages", "SegmentationClassAug", and "pascal_2012_scribble" containing RGB images, groundtruth, and scribbles respectively. PASCAL 2012 segmentation dataset and its scribble annotation can be downloaded via [fetchVOC2012.sh](../data/VOC2012/fetchVOC2012.sh) and [fetchPascalScribble.sh](../data/pascal_scribble/fetchPascalScribble.sh))
 
 ## results
 <table align="left|center|center|center">
