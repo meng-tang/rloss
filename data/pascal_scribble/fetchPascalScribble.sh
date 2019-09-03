@@ -22,3 +22,7 @@ ln -s ../VOC2012/VOCdevkit/VOC2012/JPEGImages JPEGImages
 
 # ground truth
 ln -s ../VOC2012/SegmentationClassAug SegmentationClassAug
+
+# list of train set and val set
+wget http://cs.uwaterloo.ca/~m62tang/rloss/SegmentationAug.zip
+unzip SegmentationAug.zip -d ImageSets
