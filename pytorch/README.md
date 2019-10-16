@@ -60,7 +60,10 @@ python train_withdensecrfloss.py --backbone mobilenet --lr 0.007 --workers 6 --e
 
 **Table 1**: mIOU on PASCAL VOC2012 val set. We report training time for different losses (seconds/iteration, batch_size 12, GTX 1080Ti, AMD FX-6300 3.5GHz).
 
-The trained pytorch models are released <a href="https://cs.uwaterloo.ca/~m62tang/rloss/pytorch" alt=#>here</a>.
+The trained pytorch models are released <a href="https://cs.uwaterloo.ca/~m62tang/rloss/pytorch" alt=#>here</a>. Example script for testing on one image:
+```
+python inference.py --backbone mobilenet --checkpoint CHECKPOINT_PATH --image_path IMAGE_PATH --output_directory OUTPUT_DIR
+```
 
 
 ## acknowledgement

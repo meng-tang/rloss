@@ -6,6 +6,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 from torchvision import transforms
 from torch.autograd import Variable
+from os.path import join, isdir
 
 from mypath import Path
 from dataloaders import make_data_loader
@@ -42,14 +43,18 @@ def main():
     parser.add_argument('--checkpoint', type=str, default=None,
                         help='put the path to checkpoint if needed')
     # rloss options
-    parser.add_argument('--rloss_weight', type=float, default=0,
-                        metavar='M', help='densecrf loss (default: 0)')
-    parser.add_argument('--rloss_scale',type=float,default=1.0,
+    parser.add_argument('--rloss-weight', type=float,
+                        metavar='M', help='densecrf loss')
+    parser.add_argument('--rloss-scale',type=float,default=0.5,
                         help='scale factor for rloss input, choose small number for efficiency, domain: (0,1]')
-    parser.add_argument('--sigma_rgb',type=float,default=15.0,
+    parser.add_argument('--sigma-rgb',type=float,default=15.0,
                         help='DenseCRF sigma_rgb')
-    parser.add_argument('--sigma_xy',type=float,default=80.0,
+    parser.add_argument('--sigma-xy',type=float,default=80.0,
                         help='DenseCRF sigma_xy')
+    
+    # output directory
+    parser.add_argument('--output_directory', type=str,
+                        help='output directory')
 
     # input image
     parser.add_argument('--image_path',type=str,default='./misc/test.png',
@@ -89,10 +94,7 @@ def main():
           .format(args.checkpoint, checkpoint['epoch'], best_pred))
     
     model.eval()
-    densecrflosslayer = DenseCRFLoss(weight=1e-8, sigma_rgb=args.sigma_rgb, sigma_xy=args.sigma_xy)
-    if not args.no_cuda:
-        densecrflosslayer.cuda()
-    print(densecrflosslayer)
+    
     composed_transforms = transforms.Compose([
             tr.FixScaleCropImage(crop_size=args.crop_size),
             tr.NormalizeImage(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
@@ -101,49 +103,70 @@ def main():
     image_cpu = image
     if not args.no_cuda:
         image = image.cuda()
+    start = time.time()
     output = model(image)
+    print('inference time:',time.time()-start)
     pred = output.data.cpu().numpy()
     pred = np.argmax(pred, axis=1)
+
+    # visualize prediction
+    segmap = decode_segmap(pred[0],'pascal')*255
+    segmap = segmap.astype(np.uint8)
+    segimg = Image.fromarray(segmap, 'RGB')
+    if args.output_directory is not None:
+        if not isdir(args.output_directory):
+            os.makedirs(args.output_directory)
+        segimg.save(
+            join(args.output_directory, args.image_path.split('/')[-1].split('.')[0]+'_prediction.png')
+        )
+    else:
+        plt.figure()
+        plt.imshow(segimg)
+        plt.show()
+
+
     # Add batch sample into evaluator
     softmax = nn.Softmax(dim=1)
     probs = softmax(output)
     probs = Variable(probs, requires_grad=True)
-    croppings = torch.ones(pred.shape).float()
-    if not args.no_cuda:
-        croppings = croppings.cuda()
-        
-    # resize output & image & croppings for densecrf
-    start = time.time()
-    densecrfloss = densecrflosslayer(image_cpu, probs, croppings,args.rloss_scale)
-    print('inference time:',time.time()-start)
-    print("densecrf loss {}".format(densecrfloss.item()))
 
-    # visualize densecrfloss
-    densecrfloss.backward()
-    #print (probs.grad.sum())
-    #print (reduced_probs.grad.sum())
-    #grad_seg = reduced_probs.grad.cpu().numpy()
+    if args.rloss_weight is not None:
+        croppings = torch.ones(pred.shape).float()
+        if not args.no_cuda:
+            croppings = croppings.cuda()
+        densecrflosslayer = DenseCRFLoss(weight=args.rloss_weight, sigma_rgb=args.sigma_rgb, sigma_xy=args.sigma_xy, scale_factor=args.rloss_scale)
+        if not args.no_cuda:
+            densecrflosslayer.cuda()
+        print(densecrflosslayer)
+
+        # resize output & image & croppings for densecrf
+        densecrfloss = densecrflosslayer(image_cpu, probs, croppings)
     
-    #"""
-    grad_seg = probs.grad.cpu().numpy()
-    #print (grad_seg.shape)
+        print("densecrf loss {}".format(densecrfloss.item()))
 
-    for i in range(args.n_class):
-        fig=plt.figure()
-        plt.imshow(grad_seg[0,i,:,:], cmap="hot") #vmin=0, vmax=1)
-        plt.colorbar()
-        plt.axis('off')
-        plt.savefig('./misc/'+args.image_path.split('/')[-1].split('.')[0]+'_grad_seg_class_' + str(i) +'.png')
-        plt.show(block=False)
-        plt.close(fig)
-
-    # visualize prediction
-    segmap = decode_segmap(pred[0],'pascal')*255
-    np.set_printoptions(threshold=np.nan)
-    segmap = segmap.astype(np.uint8)
-    segimg = Image.fromarray(segmap, 'RGB')
-    segimg.save('./misc/'+args.image_path.split('/')[-1].split('.')[0]+'_prediction.png')
-    #"""
+        # visualize densecrfloss
+        densecrfloss.backward()
+        #"""
+        grad_seg = probs.grad.cpu().numpy()
+        #print (grad_seg.shape)
+        #print (probs.grad.sum())
+        #print (reduced_probs.grad.sum())
+        #grad_seg = reduced_probs.grad.cpu().numpy()
+            # gradient of dense crf loss
+        for i in range(args.n_class):
+            fig=plt.figure()
+            plt.imshow(grad_seg[0,i,:,:], cmap="hot") #vmin=0, vmax=1)
+            plt.colorbar()
+            plt.axis('off')
+            if args.output_directory is not None:
+                plt.savefig(
+                    join(args.output_directory,args.image_path.split('/')[-1].split('.')[0]+'_grad_seg_class_' + str(i) +'.png')
+                )
+                plt.show(block=False)
+                plt.close(fig)
+        if args.output_directory is None:
+            plt.show(block=True)
         
+
 if __name__ == "__main__":
    main()
