@@ -114,6 +114,11 @@ class RandomGaussianBlur(object):
 
 
 class RandomScaleCrop(object):
+    '''
+    The convention is to pad 255 and ignore the padded region. 
+    However, in scribble-annotated images, we need to distinguish ignore region 
+    and padded region for our loss function. So fill is 254 for padding.
+    '''
     def __init__(self, base_size, crop_size, fill=254):
         self.base_size = base_size
         self.crop_size = crop_size
