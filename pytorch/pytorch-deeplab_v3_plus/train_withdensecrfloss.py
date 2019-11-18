@@ -109,6 +109,8 @@ class Trainer(object):
             image, target = sample['image'], sample['label']
             croppings = (target!=254).float()
             target[target==254]=255
+            # Pixels labeled 255 are those unlabeled pixels. Padded region are labeled 254.
+            # see function RandomScaleCrop in dataloaders/custom_transforms.py for the detail in data preprocessing
             if self.args.cuda:
                 image, target = image.cuda(), target.cuda()
             self.scheduler(self.optimizer, i, epoch, self.best_pred)
